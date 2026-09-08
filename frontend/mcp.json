@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "Fabric Agente de Manutenção MCP server": {
+      "type": "http",
+      "url": "https://api.fabric.microsoft.com/v1/mcp/workspaces/9a900a02-5133-490e-bb91-aad13b876bb3/dataagents/c78b4b77-2b9e-4285-a9f2-2565faba5e51/agent",
+      "headers": { "Content-Type": "application/json" }
+    }
+  }
+}
