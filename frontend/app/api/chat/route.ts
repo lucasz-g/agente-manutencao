@@ -11,7 +11,8 @@ import type { NextRequest } from "next/server";
  * os pedaços recebidos com `controller.enqueue(encoder.encode(pedaco))`.
  */
 
-const FASTAPI_BACKEND_URL = "http://localhost:8000/data-agent/query"
+const FASTAPI_BACKEND_URL =
+  process.env.BACKEND_URL ?? "http://localhost:8000/data-agent/query"
 
 type Message = {
   role: "user" | "assistant";

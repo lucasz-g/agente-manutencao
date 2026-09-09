@@ -23,7 +23,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      {/* h-full (e não min-h-full): o body tem a altura exata da viewport,
+          quem rola é a lista de mensagens dentro da casca do app. */}
+      <body className="h-full">{children}</body>
     </html>
   );
 }

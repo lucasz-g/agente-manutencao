@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* ---------------------------------------------------------------
    Tokens de cor (tema claro). Mude aqui e o app inteiro muda de cara.
@@ -54,13 +55,27 @@ body {
    Animações usadas nas mensagens e no indicador de "digitando".
    --------------------------------------------------------------- */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes blink {
-  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
-  40%           { opacity: 1;    transform: translateY(-3px); }
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
 }
 
 .animate-fade-up {
@@ -72,6 +87,18 @@ body {
 }
 
 /* ---------------------------------------------------------------
+   A pagina em si nunca rola: quem rola e a lista de mensagens.
+   Travar html/body evita a "rolagem dupla" e o efeito de arrastar
+   a pagina no mobile (overscroll).
+   --------------------------------------------------------------- */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+/* ---------------------------------------------------------------
    Casca do app: ocupa a altura visível da janela, acompanhando
    barras do navegador/teclado no mobile (dvh) com fallback em vh.
    --------------------------------------------------------------- */
@@ -80,4 +107,51 @@ body {
   height: 100svh;
   height: 100dvh;
   max-height: 100dvh;
+}
+
+/* ---------------------------------------------------------------
+   Coluna da conversa. Lista de mensagens e campo de digitacao usam
+   a mesma largura, entao mudar so este valor realinha os dois.
+   --------------------------------------------------------------- */
+.chat-col {
+  width: 100%;
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+/* ---------------------------------------------------------------
+   Markdown das respostas do assistente.
+   O plugin typography traz a paleta dele; aqui ela é remapeada para
+   os tokens do app, senão o texto do chat foge do tema.
+   --------------------------------------------------------------- */
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-lead: var(--muted);
+  --tw-prose-links: var(--brand);
+  --tw-prose-bullets: var(--brand);
+  --tw-prose-counters: var(--muted);
+  --tw-prose-quotes: var(--muted);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-hr: var(--border);
+  --tw-prose-captions: var(--muted);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-pre-code: var(--foreground);
+  --tw-prose-pre-bg: var(--surface-muted);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+}
+
+/* Tabelas de chamados: cabecalho fixo em tom suave e celulas mais compactas. */
+.prose thead th {
+  background: var(--surface-muted);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.prose tbody td {
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
 }

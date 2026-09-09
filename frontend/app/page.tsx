@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  ArrowPathIcon,
-  WrenchScrewdriverIcon,
-} from "@heroicons/react/24/outline";
-import ChatInput from "./api/chat/components/ChatInput";
-import EmptyState from "./api/chat/components/EmptyState";
-import MessageBubble from "./api/chat/components/MessageBubble";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { MascoteAvatar } from "./components/Mascote";
+import ChatInput from "./components/ChatInput";
+import EmptyState from "./components/EmptyState";
+import MessageBubble from "./components/MessageBubble";
 import type { Message } from "./types";
 
 export default function ChatPage() {
@@ -106,9 +104,7 @@ export default function ChatPage() {
       {/* Cabeçalho */}
       <header className="flex items-center justify-between border-b border-border/70 px-4 py-3 sm:px-6">
         <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-brand text-white shadow-md shadow-brand/25">
-            <WrenchScrewdriverIcon className="size-4.5" />
-          </div>
+          <MascoteAvatar className="size-9 shadow-md shadow-brand/20" />
           <div className="leading-tight">
             <p className="text-sm font-semibold">Assistente de Manutenção</p>
             <p className="flex items-center gap-1.5 text-xs text-muted">
@@ -136,7 +132,7 @@ export default function ChatPage() {
         {messages.length === 0 ? (
           <EmptyState onEscolher={enviar} />
         ) : (
-          <div className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-7 sm:px-6">
+          <div className="chat-col flex flex-col gap-7 px-4 py-7 sm:px-6">
             {messages.map((m) => (
               <MessageBubble key={m.id} message={m} />
             ))}

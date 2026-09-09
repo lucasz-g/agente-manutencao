@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CheckIcon,
-  ClipboardIcon,
-  WrenchScrewdriverIcon,
-} from "@heroicons/react/24/outline";
-import type { Message } from "../../../types";
+import { CheckIcon, ClipboardIcon } from "@heroicons/react/24/outline";
+import type { Message } from "../types";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { MascoteAvatar } from "./Mascote";
 
 /** Uma mensagem do chat: avatar + balão + botão de copiar. */
 export default function MessageBubble({ message }: { message: Message }) {
@@ -28,36 +25,42 @@ export default function MessageBubble({ message }: { message: Message }) {
       }`}
     >
       {/* Avatar */}
-      <div
-        className={`mt-1 flex size-8 shrink-0 items-center justify-center rounded-xl text-[11px] font-semibold ${
-          isUser
-            ? "bg-surface text-muted ring-1 ring-border"
-            : "bg-brand text-white shadow-md shadow-brand/25"
-        }`}
-      >
-        {isUser ? "EU" : <WrenchScrewdriverIcon className="size-4" />}
-      </div>
+      {isUser ? (
+        <div className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-xl bg-surface text-[11px] font-semibold text-muted ring-1 ring-border">
+          EU
+        </div>
+      ) : (
+        <MascoteAvatar className="mt-1 size-8 shadow-sm" />
+      )}
 
       <div
-        className={`flex min-w-0 max-w-[80%] flex-col ${
+        className={`flex min-w-0 max-w-[100%] flex-col ${
           isUser ? "items-end" : "items-start"
         }`}
       >
         {/* Balão */}
         <div
-          className={`px-4 py-2.5 text-[15px] leading-relaxed break-words whitespace-pre-wrap ${
+          className={`rounded-[18px] px-4 py-2.5 text-[15px] leading-relaxed break-words ${
             isUser
-              ? "rounded-[18px] rounded-br-md bg-brand text-white shadow-md shadow-brand/20"
-              : "rounded-[18px] rounded-bl-md bg-surface text-foreground shadow-sm ring-1 ring-border/70"
+              ? "rounded-br-md bg-brand whitespace-pre-wrap text-white shadow-md shadow-brand/20"
+              : "rounded-bl-md bg-surface text-foreground shadow-sm ring-1 ring-border/70"
           }`}
         >
+          {/*
+            O pre-wrap fica só no balão do usuário (texto puro, preserva as
+            quebras digitadas). No do assistente o markdown já produz os
+            blocos; com pre-wrap as quebras da fonte viravam linhas em branco.
+          */}
           {!message.content ? (
             <TypingDots />
           ) : isUser ? (
             message.content
           ) : (
-            <div className="prose prose-sm max-w-none prose-p:my-1.5 prose-ul:my-1.5 prose-li:my-0">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <div className="prose max-w-none text-[15px] leading-relaxed prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 prose-headings:mt-4 prose-headings:mb-2 prose-headings:text-base prose-pre:my-2.5 prose-hr:my-4 prose-blockquote:my-2.5 prose-blockquote:border-brand/40">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{ table: Tabela }}
+              >
                 {message.content}
               </ReactMarkdown>
             </div>
@@ -82,6 +85,18 @@ export default function MessageBubble({ message }: { message: Message }) {
           </button>
         )}
       </div>
+    </div>
+  );
+}
+
+/**
+ * Tabela de markdown. Vai num container com rolagem própria: tabela de
+ * chamados costuma ter muitas colunas e não pode empurrar a página inteira.
+ */
+function Tabela({ children }: { children?: React.ReactNode }) {
+  return (
+    <div className="-mx-1 my-3 overflow-x-auto rounded-xl ring-1 ring-border">
+      <table className="my-0 w-full text-sm">{children}</table>
     </div>
   );
 }

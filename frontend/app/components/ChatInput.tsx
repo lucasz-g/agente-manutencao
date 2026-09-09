@@ -41,7 +41,7 @@ export default function ChatInput({
 
   return (
     <div className="px-4 pb-5 pt-3">
-      <div className="mx-auto max-w-3xl">
+      <div className="chat-col">
         <div className="flex items-end gap-2 rounded-[22px] bg-surface p-2 shadow-lg shadow-black/5 ring-1 ring-border transition focus-within:ring-2 focus-within:ring-brand">
           <textarea
             ref={textareaRef}
