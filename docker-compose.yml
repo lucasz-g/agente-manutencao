@@ -16,7 +16,7 @@ services:
     environment:
       BACKEND_URL: http://backend:8000/data-agent/query
     ports:
-      - "3000:3000"
+      - "3005:3005"
     depends_on:
       - backend
     restart: unless-stopped
