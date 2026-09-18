@@ -7,6 +7,7 @@ import ChatInput from "./components/ChatInput";
 import EmptyState from "./components/EmptyState";
 import MessageBubble from "./components/MessageBubble";
 import type { Message } from "./types";
+import { v4 as uuidv4 } from "uuid";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -31,14 +32,14 @@ export default function ChatPage() {
     setInput("");
 
     const pergunta: Message = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       role: "user",
       content: conteudo,
     };
 
     // Balão vazio do assistente — ele mostra as bolinhas até o texto chegar.
     const resposta: Message = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       role: "assistant",
       content: "",
     };
