@@ -1,0 +1,22 @@
+services:
+  backend:
+    build:
+      context: ./backend/ai-integration
+    container_name: assistant-backend
+    env_file:
+      - ./backend/ai-integration/.env
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: assistant-frontend
+    environment:
+      BACKEND_URL: http://backend:8000/data-agent/query
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
