@@ -8,7 +8,24 @@ planilhas e hoje levam de 3 a 4 minutos.
 Em operação há 3 meses com dados reais de produção, em uso pelo key user da área
 (Lucas Santos, Programador de Manutenção), com mais de 200 consultas realizadas.
 
+## Arquitetura
+
+![Arquitetura do Assistente de Manutenção](docs/arquitetura.png)
+
+Os datasets de origem são ingeridos por um pipeline ELT no Data Factory e armazenados
+no Lakehouse (OneLake). A camada de recuperação e enriquecimento inteligente combina
+Azure OpenAI e AI Search sobre esses dados indexados, e o AI Agent do Foundry consulta
+tanto essa camada quanto o Data Agent do Fabric. O backend FastAPI atua como
+orquestrador de agentes entre o frontend e o Azure. O Power BI lê o mesmo Lakehouse
+para acompanhamento gerencial.
+
+> O diagrama representa a arquitetura-alvo. A interface web é o canal em operação hoje;
+> app mobile, Teams/WhatsApp, ML Training e Power BI são evolução prevista, e o caminho
+> em uso atualmente é o descrito abaixo.
+
 ## Como funciona
+
+Fluxo de uma pergunta, hoje:
 
 ```
 Navegador  →  Next.js (/api/chat)  →  FastAPI (/data-agent/query)  →  Fabric Data Agent (MCP)
@@ -48,6 +65,7 @@ assistant-app/
 │   ├── app/api/chat/route.ts        # Proxy para o backend + streaming da resposta
 │   ├── app/components/              # ChatInput, MessageBubble, EmptyState, Mascote
 │   └── Dockerfile
+├── docs/arquitetura.png             # Diagrama da arquitetura
 ├── docker-compose.yml
 └── DOCKER.md                        # Detalhes de build, cache e comandos do Docker
 ```
