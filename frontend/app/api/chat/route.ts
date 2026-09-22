@@ -20,14 +20,14 @@ type Message = {
 };
 
 
-async function fetchFromBackend( question: string ) : Promise<string> {
+async function fetchFromBackend( question: string, history: Message[] ) : Promise<string> {
   const response = await fetch(FASTAPI_BACKEND_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ question }),
-  }); 
+    body: JSON.stringify({ question, history }),
+  });
 
   if(!response.ok){
     throw new Error("Network response not ok.")
@@ -41,8 +41,16 @@ async function fetchFromBackend( question: string ) : Promise<string> {
 export async function POST(request: NextRequest) {
   const { messages } = (await request.json()) as { messages: Message[] };
 
-  const ultimaPergunta = messages.filter((m) => m.role === "user").at(-1);
-  const texto = await fetchFromBackend(ultimaPergunta?.content ?? "");
+  // O Data Agent do Fabric é stateless: além da pergunta atual, mandamos as
+  // mensagens anteriores para que follow-ups ("pode", "detalha o item 3")
+  // façam sentido. O backend é quem poda e monta o prompt final.
+  const indiceUltimaPergunta = messages.map((m) => m.role).lastIndexOf("user");
+  const ultimaPergunta =
+    indiceUltimaPergunta >= 0 ? messages[indiceUltimaPergunta] : undefined;
+  const historico =
+    indiceUltimaPergunta >= 0 ? messages.slice(0, indiceUltimaPergunta) : [];
+
+  const texto = await fetchFromBackend(ultimaPergunta?.content ?? "", historico);
 
   const encoder = new TextEncoder();
 

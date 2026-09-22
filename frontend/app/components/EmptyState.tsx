@@ -24,18 +24,18 @@ const SUGESTOES = [
   {
     icon: ClipboardDocumentListIcon,
     titulo: "Ordem de serviço",
-    texto: "Qual foi a última OS do Forno B?",
+    texto: "Quais foram as OS mais longas da semana?",
   },
   {
     icon: ClockIcon,
     titulo: "Histórico",
     texto:
-      "Existem chamados anteriores de vazamento no flexível da máquina B5?",
+      "Quais máquinas tiveram maior número de ocorrências?",
   },
   {
     icon: ChartBarIcon,
     titulo: "Indicadores",
-    texto: "Qual o MTTR e o MTBF da B5 nos últimos 90 dias?",
+    texto: "Quais máquinas tiveram o melhor desempenho em termos de MTTR e MTBF nos últimos 90 dias?",
   },
 ];
 

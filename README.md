@@ -58,7 +58,8 @@ assistant-app/
 ├── backend/ai-integration/
 │   ├── main.py                      # API FastAPI — POST /data-agent/query
 │   ├── service/azure_integration.py # Token do Azure + sessão MCP com o Fabric Data Agent
-│   ├── pyproject.toml               # Dependências reais usadas no build
+│   ├── pyproject.toml               # Dependências — fonte única, lida pelo Dockerfile
+│   ├── README.md                    # Libs usadas e como funciona a conexão MCP
 │   └── Dockerfile
 ├── frontend/
 │   ├── app/page.tsx                 # Tela do chat
@@ -69,6 +70,10 @@ assistant-app/
 ├── docker-compose.yml
 └── DOCKER.md                        # Detalhes de build, cache e comandos do Docker
 ```
+
+O backend tem documentação própria em
+[backend/ai-integration/README.md](backend/ai-integration/README.md): bibliotecas usadas,
+a conexão com o MCP do Fabric e por que o SDK Python não é uma alternativa.
 
 ## Configuração
 

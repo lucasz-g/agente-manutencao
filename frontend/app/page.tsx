@@ -117,7 +117,7 @@ export default function ChatPage() {
               height={131}
               sizes="110px"
               loading="eager"
-              className="h-6 w-auto select-none"
+              className="h-6 w-auto select-none mb-[4px]"
             />
             <p className="flex items-center gap-1.5 text-xs text-muted">
               <span

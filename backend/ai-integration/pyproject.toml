@@ -2,8 +2,19 @@
 name = "ai-integration"
 version = "0.1.0"
 requires-python = ">=3.13"
+
+# Fonte unica de verdade das dependencias: o Dockerfile instala a partir daqui.
+# Ao adicionar uma lib, adicione so nesta lista.
+#
+# Os limites superiores nao sao decorativos. O `mcp` quebrou a API entre 1.x e
+# 2.x (`streamablehttp_client(headers=...)` virou `streamable_http_client(
+# http_client=...)`, `inputSchema` virou `input_schema`), e o codigo em
+# service/azure_integration.py usa a forma 2.x.
 dependencies = [
-    "fastapi[standard]>=0.141.1",
-    "azure-identity>=1.19.0",
-    "mcp>=1.0.0",
+    "fastapi[standard]>=0.141.1,<1",   # API HTTP (main.py)
+    "uvicorn>=0.30,<1",                # servidor ASGI, invocado no CMD do Dockerfile
+    "azure-identity>=1.25,<2",         # ClientSecretCredential -> token do Fabric
+    "mcp>=2.0,<3",                     # cliente MCP do Data Agent
+    "httpx2>=2.5,<3",                  # cliente HTTP exigido pelo mcp 2.x (NAO e o httpx)
+    "python-dotenv>=1.0,<2",           # carrega o .env em dev
 ]
