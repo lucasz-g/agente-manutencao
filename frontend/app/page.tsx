@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { MascoteAvatar } from "./components/Mascote";
 import ChatInput from "./components/ChatInput";
@@ -107,7 +108,17 @@ export default function ChatPage() {
         <div className="flex items-center gap-3">
           <MascoteAvatar className="size-9 shadow-md shadow-brand/20" />
           <div className="leading-tight">
-            <p className="text-sm font-semibold">Assistente de Manutenção</p>
+            {/* Logo MATIA no lugar do titulo em texto. O alt mantem o nome
+                por extenso, que a arte sozinha nao comunica. */}
+            <Image
+              src="/logo-matia.png"
+              alt="MATIA — Assistente de Manutenção"
+              width={574}
+              height={131}
+              sizes="110px"
+              loading="eager"
+              className="h-6 w-auto select-none"
+            />
             <p className="flex items-center gap-1.5 text-xs text-muted">
               <span
                 className={`size-1.5 rounded-full bg-brand ${
